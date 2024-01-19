@@ -1,0 +1,14 @@
+FROM python:3.11.2-slim-buster
+
+WORKDIR /code
+
+COPY ./requirements-dev.txt /code/requirements-dev.txt
+
+RUN pip install --upgrade pip
+
+RUN pip install -r  /code/requirements-dev.txt 
+
+
+COPY ./app /code/app
+COPY ./tests /code/tests
+CMD ["python","-m","pytest","--cov=app","tests"]

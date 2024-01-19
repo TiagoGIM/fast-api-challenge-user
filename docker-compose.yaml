@@ -10,6 +10,12 @@ services:
     volumes:
       - ./app/:/code/app
     restart: on-failure
-
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./app/:/code/app
+      - ./tests/:/code/tests
 
     
