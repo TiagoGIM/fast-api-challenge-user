@@ -6,9 +6,25 @@ Leia o [Desafio FastAPI - Paneas](./docs/desafio_fastAPI_Paneas.md) para obter m
 
 ## Nivéis Implementados
 
+1. **API de Gerenciamento de Usuários**
+   - ✅ CRUD User
+   - ✅ Autenticação baseada em tokens (JWT) 
+   - ✅ Permissões de Usuário (admin, usuário regular)
+
+2. **Integração com Banco de Dados**
+   - ✅ SQLAlchemy como ORM
+   - ✅ Integração com PostgreSQL
+   - ✅ Migrações de Banco de Dados com Alembic
+
+3. **Documentação da API**
+   - ✅ Utilização do Swagger
+   - ✅ Documentação de Endpoints e Modelos
+   - ✅ Exemplos de Requisições e Respostas
+
 4. **Dockerização da Aplicação**
    - ✅ Dockerfile fornecido
    - ✅ docker-compose fornecido
+   - ✅ Orquestração eficiente da aplicação e banco de dados
 
 ---
 
@@ -46,8 +62,14 @@ $ git clone https://github.com/tiagoGIM/fast-api-challenge-user
 
 ```
 
+
 O Docker Compose criará os contêineres necessários para a aplicação e o banco de dados PostgreSQL. Após a conclusão, a aplicação estará acessível em http://localhost:8000 e a documentação da API em http://localhost:8000/docs.
 
+## Endpoints
+
+O projeto incorpora uma estrutura de segurança, possui rotas protegidas e usuários com distintas permissões. Nesse contexto, foram implementadas rotas públicas, acessíveis a usuários comuns, bem como rotas de nível restrito para administradores. Essa abordagem visa garantir um controle efetivo de acesso e segurança na aplicação, atendendo às necessidades específicas de cada tipo de usuário.
+
+![Alt text](./docs/image.png)
 
 ## Authors
 
