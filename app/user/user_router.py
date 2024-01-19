@@ -1,10 +1,9 @@
-from email import message
 from fastapi import APIRouter, Depends, status, Response
 from sqlalchemy.orm import Session
+from fastapi.exceptions import HTTPException
 from ..user.user_service import UserService
 from ..depends import get_db_session
 from ..user.user_schemas import  UserCreateDTO, UserResponseDTO, UserUpdateDTO, Message
-from fastapi.exceptions import HTTPException
 
 router_user = APIRouter(
     prefix="/users",

@@ -1,8 +1,9 @@
-from ..db.models import UserModel
-from ..user.user_schemas import User
 from sqlalchemy.orm import Session
 from typing import List
 from uuid import UUID
+from ..db.models import UserModel
+from ..user.user_schemas import User
+
 class UserRepository:
     def __init__(self, db: Session):
         self.db = db
