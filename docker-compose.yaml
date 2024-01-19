@@ -5,17 +5,34 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - DB_URL=${DB_URL}
     ports:
       - "8000:80"
     volumes:
       - ./app/:/code/app
+      - ./migrations/:/code/migrations/
     restart: on-failure
   test:
     build:
       context: .
       dockerfile: Dockerfile.test
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - DB_URL=${DB_URL}
     volumes:
       - ./app/:/code/app
       - ./tests/:/code/tests
 
+  postgresql2:
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.env
+    volumes:
+      - /var/cache/postgres_data:/var/lib/postgresql/data
     
