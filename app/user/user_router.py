@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, status, Response
 from sqlalchemy.orm import Session
 from fastapi.exceptions import HTTPException
+from ..enums.permissions import Roles
 from ..user.user_service import UserService
-from ..depends import get_current_user, get_db_session
+from ..depends import PermissionChecker, get_current_user, get_db_session
 from ..user.user_schemas import  UserCreateDTO, UserResponseDTO, UserUpdateDTO, Message, User
 
 router_user = APIRouter(
@@ -54,7 +55,7 @@ async def remove_user(
     id: str,
     response : Response,
     db_session: Session = Depends(get_db_session),
-    current_user : User = Depends(get_current_user)
+    user : User = Depends(PermissionChecker(required_permissions=Roles.ADMIN))
     ) -> str :
     user_service = UserService(db_session)
 
