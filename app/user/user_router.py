@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, status, Response
 from sqlalchemy.orm import Session
 from fastapi.exceptions import HTTPException
 from ..user.user_service import UserService
-from ..depends import get_db_session
-from ..user.user_schemas import  UserCreateDTO, UserResponseDTO, UserUpdateDTO, Message
+from ..depends import get_current_user, get_db_session
+from ..user.user_schemas import  UserCreateDTO, UserResponseDTO, UserUpdateDTO, Message, User
 
 router_user = APIRouter(
     prefix="/users",
@@ -21,9 +21,10 @@ def create_user(
         
 
 @router_user.get("/{username}", response_model=UserResponseDTO)
-async def get_current_user(
+async def get_user_by_name(
     username: str,
-    db_session: Session = Depends(get_db_session)
+    db_session: Session = Depends(get_db_session),
+    current_user : User = Depends(get_current_user)
     ):
     user_service = UserService(db_session)
 
@@ -39,7 +40,8 @@ async def get_current_user(
 async def update_user(
     id : str,
     user : UserUpdateDTO,
-    db_session: Session = Depends(get_db_session)
+    db_session: Session = Depends(get_db_session),
+    current_user : User = Depends(get_current_user)
     ):
 
     user_service = UserService(db_session)
@@ -51,7 +53,8 @@ async def update_user(
 async def remove_user(
     id: str,
     response : Response,
-    db_session: Session = Depends(get_db_session)
+    db_session: Session = Depends(get_db_session),
+    current_user : User = Depends(get_current_user)
     ) -> str :
     user_service = UserService(db_session)
 
