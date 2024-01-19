@@ -5,6 +5,19 @@ Ao iniciar este projeto, optei por adotar uma abordagem Dockerizada desde o prin
 
 Na ocasião, não possuía o Python instalado localmente em minha máquina, o que motivou a escolha de salvar as dependências do projeto em um arquivo requirements.txt. Vale ressaltar que essa decisão foi tomada devido à circunstância específica, e que uma abordagem mais convencional envolveria o uso de ambientes virtuais (venv) ou ferramentas modernas como o Poetry. Essas alternativas oferecem métodos automáticos e eficazes para gerenciar as dependências do projeto, tornando o desenvolvimento mais ágil e organizado.
 
+## Padrão do Projeto
+Para garantir uma estrutura organizada e aderente às melhores práticas, o projeto adota o padrão de arquitetura MVC (Model-View-Controller), com um foco especial no domínio user. Aqui estão algumas decisões arquiteturais adotadas:
+
+### Estrutura do Projeto
+- Repository Pattern: Implementamos o padrão repository para lidar com a persistência de dados, proporcionando um desacoplamento eficaz entre a lógica de negócios e o acesso aos dados.
+Segregação em Camadas: Dividimos o projeto em camadas distintas, como service, route e models. Isso facilita a manutenção, teste e compreensão do código.
+### Práticas MVC
+- Entities e DTOs: As entidades e DTOs (Data Transfer Objects) ficarão em ***_schemas.py**. Aqui, definimos nossos modelos de dados e objetos de transferência de dados para interação com a API.
+Service Layer: A camada de serviço (service) contém a lógica de negócios, manipulação de dados e regras de aplicação específicas do domínio.
+Rotas (Routes): As rotas da API estão em ***_route.py**, garantindo uma separação clara entre a manipulação de solicitações HTTP e a lógica de negócios.
+### SOLID
+- Desacoplamento e SOLID: Embora Python não seja uma linguagem estritamente orientada a objetos, busquei promover o desacoplamento e seguir princípios do SOLID sempre que possível.
+
 ## ROAD MAP
 
 1. **API de Gerenciamento de Usuários**
