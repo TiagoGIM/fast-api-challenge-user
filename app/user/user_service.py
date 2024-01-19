@@ -47,8 +47,7 @@ class UserService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='UserUpdateDTO have some problem'
             )
-    
-        
+          
     def get_user_by_user_name(self, username:str) ->  UserResponseDTO:
         try:
             found_user = self.user_repository.get_by_username(username)
