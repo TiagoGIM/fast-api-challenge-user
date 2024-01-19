@@ -45,31 +45,40 @@ Antes de iniciar a execução do projeto, certifique-se de ter as seguintes ferr
 
 1. Clone o repositório:
 ```bash
-$ git clone https://github.com/tiagoGIM/fast-api-challenge-user
+  git clone https://github.com/tiagoGIM/fast-api-challenge-user
  ```
 
 
 2. Navegue até o diretório do projeto:
 
 ```bash
- $ cd fast-api-challenge-user
+  cd fast-api-challenge-user
 ```
 
 3. Execute o Docker Compose:
 
 ```bash
- $ docker-compose up --build
+  docker-compose up --build
 
+```
+
+4. Execute as migrations
+acesse o terminal docker da api e rode o seguinte comando
+```bash
+  alembic upgrade head
 ```
 
 
 O Docker Compose criará os contêineres necessários para a aplicação e o banco de dados PostgreSQL. Após a conclusão, a aplicação estará acessível em http://localhost:8000 e a documentação da API em http://localhost:8000/docs.
+
 
 ## Endpoints
 
 O projeto incorpora uma estrutura de segurança, possui rotas protegidas e usuários com distintas permissões. Nesse contexto, foram implementadas rotas públicas, acessíveis a usuários comuns, bem como rotas de nível restrito para administradores. Essa abordagem visa garantir um controle efetivo de acesso e segurança na aplicação, atendendo às necessidades específicas de cada tipo de usuário.
 
 ![Alt text](./docs/image.png)
+
+
 
 ## Authors
 
