@@ -1,5 +1,5 @@
 # Define a imagem base utilizando o Python 3.11.4 com uma distribuição Linux mínima (Slim Buster)
-FROM python:3.11.4-slim-buster
+FROM python:3.10.4-slim-buster
 
 # Define o diretório de trabalho como /code
 WORKDIR /code
@@ -20,6 +20,8 @@ COPY ./app /code/app
 COPY ./run_alembic.sh /code/run_alembic.sh
 
 RUN chmod +x /code/run_alembic.sh
+
+# RUN python /code/app/seeds/create_admin_user.py
 
 # Comando que será executado ao iniciar o contêiner, iniciando o servidor Uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]

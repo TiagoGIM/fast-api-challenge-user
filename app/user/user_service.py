@@ -6,7 +6,7 @@ from ..authentication.auth_security import get_password_hash
 from ..db.models import UserModel
 from ..user.user_repository import UserRepository
 from ..user.user_schemas import UserCreateDTO, UserResponseDTO, UserUpdateDTO
-
+from ..celery import celery_tasks
 from uuid import UUID
 class UserService:
     def __init__(self, db: Session):
@@ -14,17 +14,27 @@ class UserService:
 
     def register(self, user_dto: UserCreateDTO):
 
-        userToSave = UserModel(
+
+        try:
+            userToSave = UserModel(
             username = user_dto.username,
             email = user_dto.email,
             password = get_password_hash(user_dto.password)
         )
-        try:
-            return self.user_repository.create(userToSave)
+            user_created_with_sucess = self.user_repository.create(userToSave)
+            user_created_with_sucess.email
+
+            celery_tasks.send_email(
+                user_created_with_sucess.email,
+                "",
+                message="Seu Cadastro Foi Realizado Com Sucesso !"
+                )
+            
+            return user_created_with_sucess
         except IntegrityError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail='User already exists'
+                detail='User or email already exists'
             )
     
     def update(self, user : UserUpdateDTO, id:UUID) -> UserResponseDTO:
@@ -58,7 +68,7 @@ class UserService:
                 )
             user_response = UserResponseDTO(**found_user.__dict__)
             return user_response
-        except Exception as e:
+        except IntegrityError as e:
             raise HTTPException(
                 status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail= e.orig.args if hasattr(e, 'orig') else f"{e}"

@@ -8,3 +8,5 @@ python-multipart
 sqlalchemy
 alembic
 psycopg2
+celery==4.4.7
+pika==1.2.0

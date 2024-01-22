@@ -17,5 +17,5 @@ def test_create_user(user_service):
 def test_fail_create_user(user_service):
     user_dto = UserCreateDTO(username="testuser", password="", email="smeemai@email.com")
     with pytest.raises(Exception):
-        user_service.registre(user_dto)
+        user_service.register(user_dto)
 

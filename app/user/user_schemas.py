@@ -1,6 +1,10 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict,validator
+import re
 from ..enums.permissions import Roles
 from typing import Optional ,TypeVar, Type
+
+email_regex = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
 
 class User(BaseModel):
     id: Optional[str]
@@ -9,6 +13,19 @@ class User(BaseModel):
     email:str
     role: Optional[Roles]
     model_config = ConfigDict(from_attributes=True)
+
+    
+    @validator('username')
+    def validate_username(cls,value):
+        if not re.match('^([a-z]|[0-9]|@)+$',value):
+            raise ValueError('User name format invalid')
+        return value
+    
+    @validator('email')
+    def validate_email(cls,value):
+        if not re.match(email_regex,value):
+            raise ValueError('User email format invalid')
+        return value
 
     
 class UserCreateDTO(BaseModel):

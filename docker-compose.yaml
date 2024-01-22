@@ -9,12 +9,16 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - ALGORITHM=${ALGORITHM}
       - DB_URL=${DB_URL}
+      - RABBIT_URL=${RABBIT_URL}
     ports:
       - "8000:80"
     volumes:
       - ./app/:/code/app
       - ./migrations/:/code/migrations/
     restart: on-failure
+    networks:
+      - rabbitmq_net
+
   test:
     build:
       context: .
@@ -27,12 +31,26 @@ services:
       - ./app/:/code/app
       - ./tests/:/code/tests
 
-  postgresql2:
+  postgresql3:
     image: postgres
     ports:
       - 5432:5432
     env_file:
       - ./.env
     volumes:
-      - /var/cache/postgres_data:/var/lib/postgresql/data
-    
+      - /var/cache/postgres_data3:/var/lib/postgresql3/data
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_PASSWORD=&{RABBITMQ_DEFAULT_PASS}
+    networks:
+      - rabbitmq_net
+networks:
+  rabbitmq_net:
+    driver: bridge

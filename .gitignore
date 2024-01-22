@@ -1,0 +1,42 @@
+# Arquivos e diretórios gerados localmente
+__pycache__/
+.pytest_cache
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Ambiente virtual (se estiver usando virtualenv ou venv)
+# venv/
+# env/
+# *.env
+
+# Dependências do Python
+*.pyc
+*.pyo
+*.pyd
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Arquivos de configuração locais
+# .env
+.env.local
+.env.*.local
+
+# Arquivos de configuração específicos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de saída de ferramentas
+.idea/
+
+# Dependências e arquivos de build
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+.vscode
+# .gitignore

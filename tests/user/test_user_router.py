@@ -9,7 +9,7 @@ client = TestClient(app)
 def mock_user_service(monkeypatch):
 
     mock_instance = UserService()
-    monkeypatch.setattr("app.user.user_controller.UserService", lambda: mock_instance)
+    monkeypatch.setattr("app.user.user_router.UserService", lambda: mock_instance)
 
     return mock_instance
 
