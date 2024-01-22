@@ -1,22 +1,16 @@
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
-from .celery_tasks import hello_wolrd
+from .celery_tasks import send_email
 router = APIRouter(
     prefix="/tasks",
     tags=["tasks"]
 )
 
-# async def trigger_send_email(user_email: str, subject: str, message: str):
-#     try:
-#         send_email.delay(user_email, subject, message)
-#         return {"message": "E-mail scheduled for sending."}
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Failed to send e-mail: {str(e)}")
-
-@router.get('/hello-world')
+@router.get('/test-task')
 async def task_hellow_wolrd():
     try: 
-        hello_wolrd.delay()
+        task = send_email.delay('email@test')
+        return task.id
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to hello wolrd: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to Creat Task send-email : {str(e)}")
 

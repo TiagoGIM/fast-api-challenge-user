@@ -20,6 +20,7 @@ services:
       - rabbitmq_net
 
   test:
+    container_name: "test-job"
     build:
       context: .
       dockerfile: Dockerfile.test
@@ -32,6 +33,7 @@ services:
       - ./tests/:/code/tests
 
   postgresql3:
+    container_name: postgres-db
     image: postgres
     ports:
       - 5432:5432
@@ -39,6 +41,8 @@ services:
       - ./.env
     volumes:
       - /var/cache/postgres_data3:/var/lib/postgresql3/data
+    networks:
+      - rabbitmq_net
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -48,9 +52,38 @@ services:
       - "15672:15672"
     environment:
       - RABBITMQ_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_PASSWORD=&{RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}
     networks:
       - rabbitmq_net
+
+  celery:
+    container_name: "celery-worker"
+    build:
+      context: ./app/celery
+      dockerfile: celery_worker.dockerfile
+    environment:
+      - RABBIT_URL=${RABBIT_URL}
+    restart: always
+    depends_on:
+      - rabbitmq
+    networks:
+      - rabbitmq_net
+
+  flower:
+    container_name: flower-dashboard
+    image: mher/flower:1.2
+    environment:
+      - CELERY_BROKER_URL=${RABBIT_URL}
+    # restart: always
+    ports:
+      - 5555:5555
+    depends_on:
+      - celery
+    networks:
+      - rabbitmq_net
+
 networks:
   rabbitmq_net:
     driver: bridge
+
+    

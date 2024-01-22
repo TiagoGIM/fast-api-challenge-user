@@ -6,7 +6,7 @@ from ..authentication.auth_security import get_password_hash
 from ..db.models import UserModel
 from ..user.user_repository import UserRepository
 from ..user.user_schemas import UserCreateDTO, UserResponseDTO, UserUpdateDTO
-from ..celery import celery_tasks
+from ..celery.celery_tasks import send_email
 from uuid import UUID
 class UserService:
     def __init__(self, db: Session):
@@ -24,11 +24,7 @@ class UserService:
             user_created_with_sucess = self.user_repository.create(userToSave)
             user_created_with_sucess.email
 
-            celery_tasks.send_email(
-                user_created_with_sucess.email,
-                "",
-                message="Seu Cadastro Foi Realizado Com Sucesso !"
-                )
+            send_email(user_created_with_sucess.email).delay()
             
             return user_created_with_sucess
         except IntegrityError:

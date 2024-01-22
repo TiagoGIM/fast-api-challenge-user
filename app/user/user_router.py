@@ -13,7 +13,7 @@ router_user = APIRouter(
 )
 
 @router_user.post("/singin", status_code=status.HTTP_201_CREATED, response_model = Message)
-def create_user(
+async def create_user(
     user : UserCreateDTO,
     db_session: Session = Depends(get_db_session),
     ):
